@@ -8,50 +8,9 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
-    
-    var button = DropDownBtn()
-    
-    func setTableViewCell() {
-        button = DropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        button.setTitle("Button1", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        //Add Button to the View Controller
-        self.addSubview(button)
-        
-        //button Constraints
-        button.leftAnchor.constraint(equalTo: self.centerXAnchor, constant: 30).isActive = true
-        button.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        //Set the drop down menu's options
-        button.dropView.dropDownOptions = ["Option1", "Option2", "Option3", "Option4"]
-        
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        
-    }
-    
-    @objc
-    func didTapButton() {
-        print("did Tap button")
-        button.toggleState()
-    }
 
-    
-//    override func hitTest(_ point: CGPoint, with e: UIEvent?) -> UIView? {
-//        if let result = super.hitTest(point, with:e) {
-//            return result
-//        }
-//        for sub in self.subviews.reversed() {
-//            let pt = self.convert(point, to:sub)
-//            if let result = sub.hitTest(pt, with:e) {
-//                return result
-//            }
-//        }
-//        return nil
-//    }
+
+class TableViewCell: UITableViewCell {
     
 }
 

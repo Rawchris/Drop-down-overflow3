@@ -9,12 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    
-    
     @IBOutlet weak var tableView: UITableView!
+    var button = DropDownBtn()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -23,6 +20,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         //Configure the button
         tableView.delegate = self
         tableView.dataSource = self
+        
+        setupButton()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,16 +44,42 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
             cell.selectionStyle = UITableViewCell.SelectionStyle.none
-            cell.setTableViewCell()
-            
-            cell.clipsToBounds=false
-            cell.contentView.clipsToBounds=false
-            cell.layer.zPosition = 3
+
+            //cell.clipsToBounds=false
+            //cell.contentView.clipsToBounds=false
+            //cell.layer.zPosition = 3
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell2") as! Cell2
             return cell
         }
+    }
+    
+    private func setupButton() {
+        button = DropDownBtn.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        button.setTitle("Button1", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(button)
+        
+        //button Constraints
+        button.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 30).isActive = true
+        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        button.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
+        //button.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        //button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        //Set the drop down menu's options
+        button.dropView.dropDownOptions = ["Option1", "Option2", "Option3", "Option4"]
+        
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+
+    @objc
+    func didTapButton() {
+        print("did Tap button")
+        button.toggleState()
     }
     
 }
