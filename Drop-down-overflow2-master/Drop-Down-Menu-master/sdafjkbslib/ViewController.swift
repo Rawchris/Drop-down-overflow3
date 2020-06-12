@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     var button = DropDownBtn()
+    var topButtonConstraint: NSLayoutConstraint?
+    let topButtonConstraintInitialValue: CGFloat = -90.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,11 +66,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //button Constraints
         button.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 30).isActive = true
-        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        button.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 90).isActive = true
-        //button.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        topButtonConstraint = NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: button, attribute: .top, multiplier: 1.0, constant: topButtonConstraintInitialValue)
+        topButtonConstraint?.isActive = true
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        //button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         //Set the drop down menu's options
         button.dropView.dropDownOptions = ["Option1", "Option2", "Option3", "Option4"]
@@ -82,5 +83,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         button.toggleState()
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        topButtonConstraint?.constant = topButtonConstraintInitialValue + offset
+        print("offset = \(offset), topButtonConstraint = \(String(describing: topButtonConstraint?.constant))")
+        button.setNeedsLayout()
+        //button.layoutIfNeeded()
+    }
 }
-
